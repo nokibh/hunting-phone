@@ -1,4 +1,4 @@
-const loadPhone = async (searchText, isShowAll) => {
+const loadPhone = async (searchText = ' 13', isShowAll) => {
   const res = await fetch(
     `https://openapi.programming-hero.com/api/phones?search=${searchText}`
   );
@@ -53,8 +53,25 @@ const handleShowDetail = async id => {
     `https://openapi.programming-hero.com/api/phone/${id}`
   );
   const data = await res.json();
-  console.log(data);
+  const phone = data.data;
+  showPhoneDetails(phone);
 };
+const showPhoneDetails = phone => {
+  console.log(phone);
+  const phoneName = document.getElementById('phone-name');
+  phoneName.innerText = phone.name;
+  const showDetailContainer = document.getElementById('show-detail-container');
+  showDetailContainer.innerHTML = `
+  <img src="${phone.image}" alt="" />
+  <p><span>Storage:</span>${phone.mainFeatures?.storage}</p>
+  
+   <p><span>GPS:</span>${phone?.others?.GPS}</p>
+  
+  `;
+  // show the modal
+  show_details_modal.showModal();
+};
+
 // handle search button
 const handleButoon = isShowAll => {
   toggleLoadingDot(true);
@@ -74,4 +91,4 @@ const toggleLoadingDot = isLoding => {
 const handleShowAll = () => {
   handleButoon(true);
 };
-// loadPhone();
+loadPhone();
