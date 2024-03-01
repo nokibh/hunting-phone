@@ -12,6 +12,15 @@ const displayPhones = phones => {
   // step number 1 jeikane amra boshabo
   const phoneContainer = document.getElementById('phone-container');
   phoneContainer.textContent = '';
+  // display show all button if there are more than 12 phones
+  const showAllButton = document.getElementById('show-all-container');
+  if (phones.length > 12) {
+    showAllButton.classList.remove('hidden');
+  } else {
+    showAllButton.classList.add('hidden');
+  }
+  // display only firsy 12 phones
+  phones = phones.slice(0, 12);
   phones.forEach(phone => {
     console.log(phone);
     //2 create a div
@@ -31,13 +40,22 @@ const displayPhones = phones => {
     // step 4 append child
     phoneContainer.appendChild(phoneCard);
   });
+  // hide loading dots
+  toggleLoadingDot(false);
 };
 // handle search button
 const handleButoon = () => {
+  toggleLoadingDot(true);
   const searchFild = document.getElementById('search-fild');
   const searchText = searchFild.value;
   console.log(searchText);
   loadPhone(searchText);
 };
-
+const toggleLoadingDot = isLoding => {
+  const loadingDot = document.getElementById('loading-dots');
+  if (isLoding) {
+    loadingDot.classList.remove('hidden');
+  }
+  loadingDot.classList.add('hidden');
+};
 // loadPhone();
